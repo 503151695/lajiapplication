@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="missiontype">
+    <item>任务类型</item>
+    <item>垂直分布检测</item>
+    <item>固定点环绕监测</item>
+    <item>水平衰减监测</item>
+    <item>定点监测</item>
+    <item>遥控监测</item>
+</string-array>
+    <string-array name="caiji">
+        <item>采集模式</item>
+        <item>悬停监测</item>
+        <item>移动监测</item>
+    </string-array>
+</resources>
