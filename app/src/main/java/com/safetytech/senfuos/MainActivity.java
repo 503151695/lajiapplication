@@ -1,5 +1,6 @@
 package com.safetytech.senfuos;
 
+import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -33,10 +35,12 @@ import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
+import dji.sdk.sdkmanager.DJISDKManager;
 
 public class MainActivity extends CheckPermissionsActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        View.OnClickListener,LocationSource,AMapLocationListener {
+        View.OnClickListener,LocationSource,AMapLocationListener,
+        TextureView.SurfaceTextureListener {
     private TabLayout tab_bottom;
     private AMap aMap;
     private MapView mapView;
@@ -425,5 +429,25 @@ public class MainActivity extends CheckPermissionsActivity
                 Toast.makeText(MainActivity.this,"定位失败，" + aMapLocation.getErrorInfo(),Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
     }
 }

@@ -1,20 +1,42 @@
 package com.safetytech.senfuos;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 import dji.common.error.DJIError;
 import dji.common.error.DJISDKError;
+import dji.log.DJILog;
+import dji.sdk.base.BaseComponent;
 import dji.sdk.base.BaseProduct;
+import dji.sdk.products.Aircraft;
+import dji.sdk.products.HandHeld;
+import dji.sdk.sdkmanager.BluetoothProductConnector;
 import dji.sdk.sdkmanager.DJISDKManager;
 
 public class Application extends android.app.Application {
+    public static final String TAG = Application.class.getName();
+
+    private static BaseProduct product;
+    private static BluetoothProductConnector bluetoothConnector = null;
+    private static Bus bus = new Bus(ThreadEnforcer.ANY);
+    private static Application instance;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-        DJISDKManager.getInstance().registerApp(this, mSDKManagerCallback);
+        int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE);
+        if (permissionCheck == 0 || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            DJISDKManager.getInstance().registerApp(this, mSDKManagerCallback);
+        }
+        instance = this;
     }
 
     private DJISDKManager.SDKManagerCallback mSDKManagerCallback = new DJISDKManager.SDKManagerCallback() {
@@ -23,14 +45,13 @@ public class Application extends android.app.Application {
         public void onRegister(DJIError error) {
             if (error == DJISDKError.REGISTRATION_SUCCESS) {
                 DJISDKManager.getInstance().startConnectionToProduct();
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                    }
-                });
-
+//                Handler handler = new Handler(Looper.getMainLooper());
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+//                    }
+//                });
             } else {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(new Runnable() {
@@ -42,13 +63,105 @@ public class Application extends android.app.Application {
                                        Toast.LENGTH_LONG).show();
                     }
                 });
+            }
+        }
+        @Override
+        public void onProductChange(BaseProduct oldProduct, BaseProduct newProduct) {
 
+            Log.d(TAG, String.format("onProductChanged oldProduct:%s, newProduct:%s", oldProduct, newProduct));
+            product = newProduct;
+            if (product != null) {
+                product.setBaseProductListener(mDJIBaseProductListener);
             }
 
+            notifyStatusChange();
         }
+        private BaseProduct.BaseProductListener mDJIBaseProductListener = new BaseProduct.BaseProductListener() {
 
-        @Override
-        public void onProductChange(BaseProduct djiBaseProduct, BaseProduct djiBaseProduct1) {
+            @Override
+            public void onComponentChange(BaseProduct.ComponentKey key,
+                                          BaseComponent oldComponent,
+                                          BaseComponent newComponent) {
+
+                if (newComponent != null) {
+                    newComponent.setComponentListener(mDJIComponentListener);
+                }
+                Log.d(TAG,
+                        String.format("onComponentChange key:%s, oldComponent:%s, newComponent:%s",
+                                key,
+                                oldComponent,
+                                newComponent));
+
+                notifyStatusChange();
+            }
+
+            @Override
+            public void onConnectivityChange(boolean isConnected) {
+
+                Log.d(TAG, "onProductConnectivityChanged: " + isConnected);
+
+                notifyStatusChange();
+            }
+        };
+
+        private BaseComponent.ComponentListener mDJIComponentListener = new BaseComponent.ComponentListener() {
+
+            @Override
+            public void onConnectivityChange(boolean isConnected) {
+                Log.d(TAG, "onComponentConnectivityChanged: " + isConnected);
+                notifyStatusChange();
+            }
+        };
+
+        private void notifyStatusChange() {
+            bus.post(new ConnectivityChangeEvent());
         }
     };
+
+    public static Application getInstance() {
+        return instance;
+    }
+
+    public static Bus getEventBus() {
+        return bus;
+    }
+
+    /**
+     * Gets instance of the specific product connected after the
+     * API KEY is successfully validated. Please make sure the
+     * API_KEY has been added in the Manifest
+     */
+    public static synchronized BaseProduct getProductInstance() {
+        if (null == product) {
+            product = DJISDKManager.getInstance().getProduct();
+        }
+        return product;
+    }
+
+    public static synchronized BluetoothProductConnector getBluetoothProductConnector() {
+        if (null == bluetoothConnector) {
+            bluetoothConnector = DJISDKManager.getInstance().getBluetoothProductConnector();
+        }
+        return bluetoothConnector;
+    }
+
+    public static boolean isAircraftConnected() {
+        return getProductInstance() != null && getProductInstance() instanceof Aircraft;
+    }
+
+    public static boolean isHandHeldConnected() {
+        return getProductInstance() != null && getProductInstance() instanceof HandHeld;
+    }
+
+    public static synchronized Aircraft getAircraftInstance() {
+        if (!isAircraftConnected()) return null;
+        return (Aircraft) getProductInstance();
+    }
+
+    public static synchronized HandHeld getHandHeldInstance() {
+        if (!isHandHeldConnected()) return null;
+        return (HandHeld) getProductInstance();
+    }
+    public static class ConnectivityChangeEvent {
+    }
 }

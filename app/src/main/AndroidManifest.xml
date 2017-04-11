@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <!-- 需要运行时注册的权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -49,6 +51,27 @@
         <meta-data
             android:name="com.dji.sdk.API_KEY"
             android:value="bf8eaa7d5b679fabae05d6fb" />
+
+        <service android:name="dji.sdk.sdkmanager.DJIGlobalService" />
+
+        <service android:name="dji.internal.geofeature.flyforbid.FlyforbidUpdateService" />
+
+        <!-- Required for receiving GEO system pushing. -->
+        <service android:name="dji.sdk.sdkmanager.GeoSyncFileService"/>
+
+        <!-- Required for receiving accessory attachment events.
+            This is necessary for product when connecting over USB. -->
+        <activity
+            android:name="dji.sdk.sdkmanager.DJIAoaControllerActivity"
+            android:theme="@android:style/Theme.Translucent" >
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+                android:resource="@xml/accessory_filter" />
+        </activity>
 
         <activity
             android:name=".MainActivity"
