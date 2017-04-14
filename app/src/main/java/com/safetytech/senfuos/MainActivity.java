@@ -43,7 +43,7 @@ import dji.sdk.mission.waypoint.WaypointMissionOperatorListener;
 public class MainActivity extends CheckPermissionsActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         View.OnClickListener,LocationSource,AMapLocationListener,
-        TextureView.SurfaceTextureListener {
+        TextureView.SurfaceTextureListener, SeekBar.OnSeekBarChangeListener{
     private TabLayout tab_bottom;
     private AMap aMap;
     private MapView mapView;
@@ -53,7 +53,7 @@ public class MainActivity extends CheckPermissionsActivity
     private UiSettings mUiSettings;
     private TextView location;
     private Marker locationMarker;
-    private EditText jingdu,weidu,mission_name,mission_addr;
+    private EditText jingdu,weidu,mission_name,mission_addr,et_qsgd,et_gdjg,et_jcds,et_ddcjsj;
     private RelativeLayout map_container;
     private ScrollView option1,option2,option3;
     private Spinner mission_type,mission_mode;
@@ -63,7 +63,7 @@ public class MainActivity extends CheckPermissionsActivity
     private OnLocationChangedListener mLocationChangeListener;
     private AMapLocationClientOption mLocationOption;
     public AMapLocationClient mLocationClient;
-    private SeekBar gaodu;
+    private SeekBar seek_qsgd,seek_jcds,seek_gdjg,seek_ddcjsj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,23 +118,18 @@ public class MainActivity extends CheckPermissionsActivity
         mission_addr = (EditText) findViewById(R.id.mission_addr);
         mission_type = (Spinner) findViewById(R.id.mission_type);
         mission_mode = (Spinner) findViewById(R.id.mission_mode);
-        gaodu = (SeekBar) findViewById(R.id.seek_gaodu);
-        gaodu.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+        seek_qsgd = (SeekBar) findViewById(R.id.seek_qsgd);
+        seek_qsgd.setOnSeekBarChangeListener(this);
+        seek_gdjg = (SeekBar) findViewById(R.id.seek_gdjg);
+        seek_gdjg.setOnSeekBarChangeListener(this);
+        seek_jcds = (SeekBar) findViewById(R.id.seek_jcds);
+        seek_jcds.setOnSeekBarChangeListener(this);
+        seek_ddcjsj = (SeekBar) findViewById(R.id.seek_ddcjsj);
+        seek_ddcjsj.setOnSeekBarChangeListener(this);
+        et_qsgd = (EditText) findViewById(R.id.et_qsgd);
+        et_gdjg = (EditText) findViewById(R.id.et_gdjg);
+        et_jcds = (EditText) findViewById(R.id.et_jcds);
+        et_ddcjsj = (EditText) findViewById(R.id.et_ddcjsj);
 
         tab_bottom.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -454,5 +449,34 @@ public class MainActivity extends CheckPermissionsActivity
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
     }
-    
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        switch (seekBar.getId()){
+            case R.id.seek_qsgd:
+                et_qsgd.setText(progress+"");
+                break;
+            case R.id.seek_gdjg:
+                et_gdjg.setText(progress+"");
+                break;
+            case R.id.seek_jcds:
+                et_jcds.setText(progress+"");
+                break;
+            case R.id.seek_ddcjsj:
+                et_ddcjsj.setText(progress+"");
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
 }
