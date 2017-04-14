@@ -36,6 +36,9 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import dji.sdk.sdkmanager.DJISDKManager;
+import dji.common.mission.waypoint.Waypoint;
+import dji.sdk.mission.MissionControl;
+import dji.sdk.mission.waypoint.WaypointMissionOperatorListener;
 
 public class MainActivity extends CheckPermissionsActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -413,6 +416,7 @@ public class MainActivity extends CheckPermissionsActivity
                         "地址：" + aMapLocation.getCountry() + "," + aMapLocation.getProvince()
                         + "," + aMapLocation.getCity() + "," + aMapLocation.getAddress());
                 LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+
                 //添加Marker显示定位位置
                 if (locationMarker == null) {
                     locationMarker = aMap.addMarker(new MarkerOptions()
@@ -450,4 +454,5 @@ public class MainActivity extends CheckPermissionsActivity
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
     }
+    
 }

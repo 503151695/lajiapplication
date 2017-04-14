@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <include layout="@layout/layout_widget"/>
+        <!--<include layout="@layout/layout_widget"/>-->
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

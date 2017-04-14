@@ -38,15 +38,15 @@
         android:layout_below="@+id/map_control"
         android:layout_centerHorizontal="true"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:orientation="horizontal">-->
 
-        <dji.ui.widget.dashboard.DashboardWidget
-            android:id="@+id/Compass"
-            android:layout_width="405dp"
-            android:layout_height="91dp"/>
-    </LinearLayout>
+        <!--<dji.ui.widget.dashboard.DashboardWidget-->
+            <!--android:id="@+id/Compass"-->
+            <!--android:layout_width="405dp"-->
+            <!--android:layout_height="91dp"/>-->
+    <!--</LinearLayout>-->
 </RelativeLayout>

@@ -3,39 +3,40 @@
     android:id="@+id/signal"
     android:layout_width="match_parent"
     android:layout_height="25dp"
-    android:background="@color/dark_gray"
+
     android:layout_centerVertical="true">
+    <!--android:background="@color/dark_gray"-->
 
-    <dji.ui.widget.FlightModeWidget
-        android:layout_width="103dp"
-        android:layout_height="22dp"
-        android:layout_toLeftOf="@+id/gpsSignal"
-        android:layout_marginRight="5dp"/>
+    <!--<dji.ui.widget.FlightModeWidget-->
+        <!--android:layout_width="103dp"-->
+        <!--android:layout_height="22dp"-->
+        <!--android:layout_toLeftOf="@+id/gpsSignal"-->
+        <!--android:layout_marginRight="5dp"/>-->
 
-    <dji.ui.widget.GPSSignalWidget
-        android:id="@+id/gpsSignal"
-        android:layout_width="44dp"
-        android:layout_height="22dp"
-        android:layout_toLeftOf="@+id/remoteControl"
-        android:layout_marginRight="5dp"/>
+    <!--<dji.ui.widget.GPSSignalWidget-->
+        <!--android:id="@+id/gpsSignal"-->
+        <!--android:layout_width="44dp"-->
+        <!--android:layout_height="22dp"-->
+        <!--android:layout_toLeftOf="@+id/remoteControl"-->
+        <!--android:layout_marginRight="5dp"/>-->
 
-    <dji.ui.widget.RemoteControlSignalWidget
-        android:id="@+id/remoteControl"
-        android:layout_width="38dp"
-        android:layout_height="22dp"
-        android:layout_toLeftOf="@+id/videoSignal"
-        android:layout_marginRight="5dp"/>
+    <!--<dji.ui.widget.RemoteControlSignalWidget-->
+        <!--android:id="@+id/remoteControl"-->
+        <!--android:layout_width="38dp"-->
+        <!--android:layout_height="22dp"-->
+        <!--android:layout_toLeftOf="@+id/videoSignal"-->
+        <!--android:layout_marginRight="5dp"/>-->
 
-    <dji.ui.widget.VideoSignalWidget
-        android:id="@+id/videoSignal"
-        android:layout_width="38dp"
-        android:layout_height="22dp"
-        android:layout_toLeftOf="@+id/battery"
-        android:layout_marginRight="5dp"/>
+    <!--<dji.ui.widget.VideoSignalWidget-->
+        <!--android:id="@+id/videoSignal"-->
+        <!--android:layout_width="38dp"-->
+        <!--android:layout_height="22dp"-->
+        <!--android:layout_toLeftOf="@+id/battery"-->
+        <!--android:layout_marginRight="5dp"/>-->
 
-    <dji.ui.widget.BatteryWidget
-        android:id="@+id/battery"
-        android:layout_width="56dp"
-        android:layout_height="22dp"
-        android:layout_alignParentRight="true"/>
+    <!--<dji.ui.widget.BatteryWidget-->
+        <!--android:id="@+id/battery"-->
+        <!--android:layout_width="56dp"-->
+        <!--android:layout_height="22dp"-->
+        <!--android:layout_alignParentRight="true"/>-->
 </RelativeLayout>
